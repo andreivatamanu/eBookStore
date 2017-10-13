@@ -50,10 +50,12 @@ public class Index extends HttpServlet {
         ResultSet resultSet = null;
         Statement statement = null;
         Connection connection = null;
-        String user = "test";
-        String password = "test";
-        String url = "jdbc:derby://localhost:1527/ebooksstore;create=true";
+        
+        String user = "CIPRIAN";
+        String password = "sargeras01";
+        String url = "jdbc:derby://localhost:1527/EBOOKS;create=true";
         String driver = "org.apache.derby.jdbc.ClientDriver";
+        
         try
         {
             Class driverClass = Class.forName(driver);
@@ -62,6 +64,7 @@ public class Index extends HttpServlet {
             String query = "SELECT NAME, PASSWORD, ROLE FROM EBOOKS.USERS WHERE NAME = '"+u+"' AND PASSWORD = '"+p+"'";
             resultSet = statement.executeQuery(query);
             boolean resultSetHasRows = resultSet.next(); 
+            
             if (resultSetHasRows)
             {
                 // save as actualUser variable the username
@@ -89,32 +92,41 @@ public class Index extends HttpServlet {
         }
         finally
         {
-            if (resultSet != null)
-            {
-                try
-                {
-                    resultSet.close();
-                }
-                catch (SQLException ex){Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);}
+            close(resultSet, statement, connection);
+        }
+    }
+    
+    
+    private void close(ResultSet resultSet, Statement stmt, Connection connection) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(eBooksStoreAdminUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (statement != null)
-            {
-                try
-                {
-                    statement.close();
-                }
-                catch (SQLException ex){Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);}
-            }	
-            if (connection != null)
-            {
-                try
-                {
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(eBooksStoreAdminUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(eBooksStoreAdminUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
                     connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(eBooksStoreAdminUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch (SQLException ex){Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }
     }
+    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -18,17 +18,19 @@
 <body>
         <%-- test if actual user is authenticated and authorized --%>
         <c:choose>
-                <c:when test="${validUser == true}">   
+                <c:when test="${(actualUserRole == 'admin')}">   
                     <!-- include menu -->
                     <%@ include file="./utils/eBooksStoreMenu.jsp" %>
                     <%-- Master view --%>
+                    
+                    
                         <form action="${pageContext.request.contextPath}/eBooksStoreAdminUsersServlet" method="POST">
                         <sql:setDataSource 
                         var="snapshot" 
                         driver="org.apache.derby.jdbc.ClientDriver40"
-                        url="jdbc:derby://localhost:1527/ebooksstore;create=true;"
-                        user="test"  
-                        password="test"/>
+                        url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
+                        user="CIPRIAN"  
+                        password="sargeras01"/>
                         <sql:query dataSource="${snapshot}" var="result">
                             SELECT EBOOKS.USERS.SSN, EBOOKS.USERS."NAME", EBOOKS.USERS.PASSWORD, EBOOKS.USERS."ROLE" FROM EBOOKS.USERS, EBOOKS.ROLES WHERE EBOOKS.USERS."ROLE" = EBOOKS.ROLES."ROLE" ORDER BY NAME, ROLE ASC 
                         </sql:query>
@@ -38,7 +40,7 @@
                             <td width="14%" class="thc"> SSN </td>  
                             <td width="14%" class="thc">NAME</td>
                             <td width="14%" class="thc">PASSWORD</td>
-                            <td width="14%" class="thc">ROLE <input type="submit" name="admin_userroles_open" value="Admin"></td>
+                            <td width="14%" class="thc">ROLE</td>
                         </table>    
                         <table border="1" width="100%">    
                             </tr>
@@ -56,9 +58,9 @@
                         <sql:setDataSource 
                         var="snapshotroles" 
                         driver="org.apache.derby.jdbc.ClientDriver40"
-                        url="jdbc:derby://localhost:1527/ebooksstore;create=true;"
-                        user="test"  
-                        password="test"/>
+                        url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
+                        user="CIPRIAN"  
+                        password="sargeras01"/>
                         <sql:query dataSource="${snapshotroles}" var="resultroles">
                             SELECT ROLE from EBOOKS.ROLES ORDER BY ROLE ASC 
                         </sql:query>
@@ -76,7 +78,7 @@
                                         </tr>
                                         <tr>
                                             <td> PASSWORD: </td>
-                                            <td> <input type="password" name="admin_users_password"></input></td>
+                                            <td> <input type="text" name="admin_users_password"></input></td>
                                         </tr>
                                         <tr>
                                             <td> ROLE: </td>

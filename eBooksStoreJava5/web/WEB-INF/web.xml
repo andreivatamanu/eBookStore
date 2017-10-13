@@ -20,6 +20,7 @@
         <servlet-name>eBooksStoreMainServlet</servlet-name>
         <servlet-class>servlets.eBooksStoreMainServlet</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Index</servlet-name>
         <url-pattern>/Index</url-pattern>
@@ -40,11 +41,13 @@
         <servlet-name>eBooksStoreMainServlet</servlet-name>
         <url-pattern>/eBooksStoreMainServlet</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
     <welcome-file-list>
         <welcome-file>Index.jsp</welcome-file>
     </welcome-file-list>
