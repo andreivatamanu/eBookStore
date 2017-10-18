@@ -28,9 +28,9 @@
                         <sql:setDataSource 
                         var="snapshot" 
                         driver="org.apache.derby.jdbc.ClientDriver40"
-                        url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                        user="CIPRIAN"  
-                        password="sargeras01"/>
+                        url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                        user="andrei"  
+                        password="andrei"/>
                         <sql:query dataSource="${snapshot}" var="result">
                             SELECT EBOOKS.USERS.SSN, EBOOKS.USERS."NAME", EBOOKS.USERS.PASSWORD, EBOOKS.USERS."ROLE" FROM EBOOKS.USERS, EBOOKS.ROLES WHERE EBOOKS.USERS."ROLE" = EBOOKS.ROLES."ROLE" ORDER BY NAME, ROLE ASC 
                         </sql:query>
@@ -58,9 +58,9 @@
                         <sql:setDataSource 
                         var="snapshotroles" 
                         driver="org.apache.derby.jdbc.ClientDriver40"
-                        url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                        user="CIPRIAN"  
-                        password="sargeras01"/>
+                        url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                        user="andrei"  
+                        password="andrei"/>
                         <sql:query dataSource="${snapshotroles}" var="resultroles">
                             SELECT ROLE from EBOOKS.ROLES ORDER BY ROLE ASC 
                         </sql:query>

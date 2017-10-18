@@ -27,7 +27,7 @@
                         <sql:setDataSource 
                         var="snapshot" 
                         driver="org.apache.derby.jdbc.ClientDriver40"
-                        url="jdbc:derby://localhost:1527/ebooksstore;create=true;"
+                        url="jdbc:derby://localhost:1527/eBookStore;create=true;"
                         user="test"  
                         password="test"/>
                         <sql:query dataSource="${snapshot}" var="result">

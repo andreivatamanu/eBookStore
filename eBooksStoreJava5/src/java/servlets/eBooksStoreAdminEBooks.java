@@ -41,14 +41,14 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
 
-// ============================= DB SETUP ========================================================================================================
+//  DB SETUP 
         // declare specific DB info
-        String user = "CIPRIAN";
-        String password = "sargeras01";
-        String url = "jdbc:derby://localhost:1527/EBOOKS;create=true;";
+        String user = "andrei";
+        String password = "andrei";
+        String url = "jdbc:derby://localhost:1527/eBookStore;create=true;";
         String driver = "org.apache.derby.jdbc.ClientDriver";
 
-// ============================= INSERT ========================================================================================================
+//  INSERT 
         // check push on Insert button
         if (request.getParameter("admin_ebooks_insert") != null) { // insert values from fields
             // set connection paramters to the DB
@@ -68,7 +68,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
                 pstmnt = connection.prepareStatement(DML);
 
 //                setFirst7Strings(pstmnt, parameterMap);
-                // ============================= PREPARE STATEMENT=====================
+                //  PREPARE STATEMENT
                 pstmnt.setString(1, parameterMap.get(BookParameters.ISBN));
                 pstmnt.setString(2, parameterMap.get(BookParameters.DENUMIRE));
                 pstmnt.setInt(3, filterID(parameterMap.get(BookParameters.ID_TYPE)));
@@ -85,7 +85,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
                 close(null, pstmnt, connection);
                 request.getRequestDispatcher("./eBooksStoreAdminEBooks.jsp").forward(request, response);
             }
-        } // ============================= UPDATE ========================================================================================================
+        } //  UPDATE 
         // check push on Update button
         else if (request.getParameter("admin_ebooks_update") != null) {
 
@@ -102,14 +102,14 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
                 // identify selected checkbox
                 String[] selectedCheckboxes = request.getParameterValues("admin_ebooks_checkbox");
 
-                // ============================= UPDATE ONE CHECKBOX =====================
+                //  UPDATE ONE CHECKBOX 
                 if (selectedCheckboxes.length == 1) {
                     // update all fields
                     String checkedIsbn = selectedCheckboxes[0];
 
                     updateOneCheckbox(request, connection, pstmnt, checkedIsbn);
 
-                    // ============================= UPDATE MORE CHECKBOXES =====================
+                    //  UPDATE MORE CHECKBOXES 
                 } else if (selectedCheckboxes.length > 1) {
                     // update all except isbn
 
@@ -123,7 +123,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
                 close(null, pstmnt, connection);
                 request.getRequestDispatcher("./eBooksStoreAdminEBooks.jsp").forward(request, response);
             }
-        } // ============================= DELETE ========================================================================================================
+        } //  DELETE 
         // check push on Delete button
         else if (request.getParameter("admin_ebooks_delete") != null) { // delete 
             // declare specific variables
@@ -164,13 +164,13 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
             request.getRequestDispatcher("./eBooksStoreMainPage.jsp").forward(request, response);
         }
     }
-    // ===========================================================================================================================
-    // ===========================================================================================================================
-    // ===========================================================================================================================
-    // ===========================================================================================================================
-    // ===========================================================================================================================
+    // 
+    // 
+    // 
+    // 
+    // 
 
-    // ============================= DELETE CHECKS ========================================================================================================
+    //  DELETE CHECKS 
     private void delete(Connection connection, PreparedStatement pstmnt, String[] selectedCheckboxes) throws SQLException {
         for (String isbn : selectedCheckboxes) {
 
@@ -187,7 +187,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         }
     }
 
-    // ============================= UPDATE ALL CHECKS ========================================================================================================
+    //  UPDATE ALL CHECKS 
     private void updateAllCheckboxes(HttpServletRequest request, Connection connection, PreparedStatement pstmnt, String[] selectedCheckboxes)
             throws SQLException {
 
@@ -196,7 +196,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
 
         for (String checkedIsbn : selectedCheckboxes) {
 
-            // ============================= GET CURRENT EBOOK ==============
+            //  GET CURRENT EBOOK 
             String sql = "SELECT * FROM EBOOKS.EBOOKS WHERE isbn='" + checkedIsbn + "'";
 
             statement = connection.createStatement();
@@ -221,7 +221,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
             }
 
             Ebook ebook = new Ebook(checkedIsbn, denumire, id_type, id_quality, pages, id_genre, pret);
-            // ============================= PASS THE CURRENT EBOOK ==============
+            //  PASS THE CURRENT EBOOK 
             Map<BookParameters, String> parameterMap = getUpdateParameters(request, ebook);
 
             String DML = "UPDATE EBOOKS.EBOOKS "
@@ -231,7 +231,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
             pstmnt = connection.prepareStatement(DML);
 
 //                        setFirst7Strings(pstmnt, parameterMap);
-            // ============================= PREPARE STATEMENT=====================
+            //  PREPARE STATEMENT
             pstmnt.setString(1, parameterMap.get(BookParameters.ISBN));
             pstmnt.setString(2, parameterMap.get(BookParameters.DENUMIRE));
             pstmnt.setInt(3, filterID(parameterMap.get(BookParameters.ID_TYPE)));
@@ -239,7 +239,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
             pstmnt.setInt(5, Integer.parseInt(parameterMap.get(BookParameters.PAGES)));
             pstmnt.setInt(6, filterID(parameterMap.get(BookParameters.ID_GENRE)));
             pstmnt.setDouble(7, Double.parseDouble(parameterMap.get(BookParameters.PRET)));
-            // ========== WHERE =============
+            //  WHERE 
             pstmnt.setString(8, checkedIsbn);
 
             pstmnt.execute();
@@ -249,7 +249,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         close(results, null, null);
 
     }
-    // ============================= UPDATE ONE CHECK ========================================================================================================
+    //  UPDATE ONE CHECK 
 
     private void updateOneCheckbox(HttpServletRequest request, Connection connection, PreparedStatement pstmnt, String checkedIsbn)
             throws SQLException {
@@ -261,7 +261,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         int id_genre = 0;
         double pret = 0;
         
-        // ============================= GET THE EBOOK ==============
+        //  GET THE EBOOK 
         String sql = "SELECT * FROM EBOOKS.EBOOKS WHERE isbn='" + checkedIsbn+"'";
 
         Statement statement = connection.createStatement();
@@ -279,7 +279,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         }
 
         Ebook ebook = new Ebook(checkedIsbn, denumire, id_type, id_quality, pages, id_genre, pret);
-        // ============================= PASS THE EBOOK ==============
+        //  PASS THE EBOOK 
         Map<BookParameters, String> parameterMap = getUpdateParameters(request, ebook);
 
         String DML = "UPDATE EBOOKS.EBOOKS "
@@ -289,7 +289,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         pstmnt = connection.prepareStatement(DML);
 
 //                    setFirst7Strings(pstmnt, parameterMap);
-// ============================= PREPARE STATEMENT=====================
+//  PREPARE STATEMENT
         pstmnt.setString(1, parameterMap.get(BookParameters.ISBN));
         pstmnt.setString(2, parameterMap.get(BookParameters.DENUMIRE));
         pstmnt.setInt(3, filterID(parameterMap.get(BookParameters.ID_TYPE)));
@@ -297,7 +297,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         pstmnt.setInt(5, Integer.parseInt(parameterMap.get(BookParameters.PAGES)));
         pstmnt.setInt(6, filterID(parameterMap.get(BookParameters.ID_GENRE)));
         pstmnt.setDouble(7, Double.parseDouble(parameterMap.get(BookParameters.PRET)));
-        // ========== WHERE =============
+        //  WHERE 
         pstmnt.setString(8, checkedIsbn);
 
         pstmnt.execute();
@@ -308,7 +308,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
 
 
 
-// ============================= FILTER THE IDs ========================================================================================================
+//  FILTER THE IDs 
     private int filterID(String string) {
 
         String[] separated = string.split("|");
@@ -320,7 +320,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
 //        }
     }
 
-    // ============================= GET INSERT PARAMETERS ===================================================================================================
+    //  GET INSERT PARAMETERS 
     private Map<BookParameters, String> getInsertParameters(HttpServletRequest request) {
 
         Map<BookParameters, String> parameterMap = new HashMap<>();
@@ -357,7 +357,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         return parameterMap;
     }
 
-    // ============================= GET UPDATE PARAMETERS ==============================================================================================
+    //  GET UPDATE PARAMETERS 
     private Map<BookParameters, String> getUpdateParameters(HttpServletRequest request, Ebook ebook) {
 
         Map<BookParameters, String> parameterMap = new HashMap<>();
@@ -370,7 +370,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         String id_genreParam = request.getParameter("admin_ebooks_id_genres");
         String id_qualityParam = request.getParameter("admin_ebooks_id_paper_qualities");
 
-        // if parameter is null or "", don't change it
+        // if parameter is null or "", don't change it----->
         parameterMap.put(BookParameters.ISBN,
                 ((isbnParam == null || isbnParam.trim().equals("")) ? ebook.getIsbn() : isbnParam));
 
@@ -395,7 +395,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         return parameterMap;
     }
 
-// ============================= CONFIGURE THE PREPARED STATEMENT =====================================================================
+//  CONFIGURE THE PREPARED STATEMENT 
     private void setFirst7Strings(PreparedStatement pstmnt, Map<BookParameters, String> parameterMap) throws SQLException {
 
         pstmnt.setString(1, parameterMap.get(BookParameters.ISBN));
@@ -407,7 +407,7 @@ public class eBooksStoreAdminEBooks extends HttpServlet {
         pstmnt.setDouble(7, Double.parseDouble(parameterMap.get(BookParameters.PRET)));
     }
 
-    // ============================= CLOSE RESOURCES ========================================================================================================
+    //  CLOSE RESOURCES 
     private void close(ResultSet resultSet, Statement stmt, Connection connection) {
         if (resultSet != null) {
             try {

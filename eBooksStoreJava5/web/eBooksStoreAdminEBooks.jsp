@@ -30,9 +30,9 @@
                         <sql:setDataSource 
                             var="snapshot" 
                             driver="org.apache.derby.jdbc.ClientDriver40"
-                            url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                            user="CIPRIAN"  
-                            password="sargeras01"/>
+                            url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                            user="andrei"  
+                            password="andrei"/>
                         <sql:query dataSource="${snapshot}" var="result">
                             SELECT ISBN, DENUMIRE, ID_TYPE, ID_QUALITY, PAGES, ID_GENRE, PRET FROM EBOOKS.EBOOKS
                         </sql:query>
@@ -66,27 +66,27 @@
                         <sql:setDataSource 
                             var="snapshotgenres" 
                             driver="org.apache.derby.jdbc.ClientDriver40"
-                            url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                            user="CIPRIAN"  
-                            password="sargeras01"/>
+                            url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                            user="andrei"  
+                            password="andrei"/>
                         <sql:query dataSource="${snapshotgenres}" var="resultgenres">
                             SELECT ID, GENRE FROM EBOOKS.BOOK_GENRES 
                         </sql:query>
                         <sql:setDataSource 
                             var="snapshotpaperqualities" 
                             driver="org.apache.derby.jdbc.ClientDriver40"
-                            url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                            user="CIPRIAN"  
-                            password="sargeras01"/>
+                            url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                            user="andrei"  
+                            password="andrei"/>
                         <sql:query dataSource="${snapshotpaperqualities}" var="resultpaperqualities">
                             SELECT ID, QUALITY FROM EBOOKS.BOOK_PAPER_QUALITIES 
                         </sql:query>    
                         <sql:setDataSource 
                             var="snapshottypes" 
                             driver="org.apache.derby.jdbc.ClientDriver40"
-                            url="jdbc:derby://localhost:1527/EBOOKS;create=true;"
-                            user="CIPRIAN"  
-                            password="sargeras01"/>
+                            url="jdbc:derby://localhost:1527/eBookStore;create=true;"
+                            user="andrei"  
+                            password="andrei"/>
                         <sql:query dataSource="${snapshottypes}" var="resulttypes">
                             SELECT ID, TYPE FROM EBOOKS.BOOK_TYPES 
                         </sql:query>    

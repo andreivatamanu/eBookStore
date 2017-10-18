@@ -42,9 +42,9 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // set connection to the DB
-        String user = "CIPRIAN";
-        String password = "sargeras01";
-        String url = "jdbc:derby://localhost:1527/EBOOKS;create=true;";
+        String user = "andrei";
+        String password = "andrei";
+        String url = "jdbc:derby://localhost:1527/eBookStore;create=true;";
         String driver = "org.apache.derby.jdbc.ClientDriver";
 
         // read values from page fields
@@ -53,7 +53,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         String passwordParam = request.getParameter("admin_users_password");
         String roleParam = request.getParameter("admin_user_role");
 
-// ============================= INSERT ========================================================================================================
+//  INSERT 
 
         // check push on Insert button
         if (request.getParameter("admin_users_insert") != null) { // insert values from fields
@@ -62,7 +62,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
             Connection connection = null;
             PreparedStatement pstmnt = null;
 
-            // ============================= TODO: IF USERNAME IS NULL DO NOT INSERT! ===================
+            //  TODO: IF USERNAME IS NULL DO NOT INSERT! 
             try {
                 //check driver and create connection
                 Class driverClass = Class.forName(driver);
@@ -86,7 +86,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
                 // redirect page to its JSP as view
                 request.getRequestDispatcher("./eBooksStoreAdminUsersPage.jsp").forward(request, response);
             }
-        } // ============================= UPDATE ========================================================================================================
+        } //  UPDATE 
         // check push on Update button
         else if (request.getParameter("admin_users_update") != null) { // update
             // declare specific variables
@@ -103,7 +103,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
 
                 String[] selectedCheckboxes = request.getParameterValues("admin_users_checkbox");
 
-                // ============================= UPDATE ONE CHECKBOX =====================
+                //  UPDATE ONE CHECKBOX 
                 
                 if (selectedCheckboxes.length == 1) {
                     // update all fields
@@ -111,7 +111,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
 
                     updateOneCheckbox(request, connection, pstmnt, checkedSsn);
 
-                    // ============================= UPDATE MORE CHECKBOXES =====================
+                    //  UPDATE MORE CHECKBOXES 
                 } else if (selectedCheckboxes.length > 1) {
                     // update all except isbn
 
@@ -127,7 +127,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
                 // redirect page to its JSP as view
                 request.getRequestDispatcher("./eBooksStoreAdminUsersPage.jsp").forward(request, response);
             }
-        } // ============================= DELETE ========================================================================================================
+        } //  DELETE 
         // check push on Delete button
         else if (request.getParameter("admin_users_delete") != null) { // delete 
             // declare specific variables
@@ -170,7 +170,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
                 // redirect page to its JSP as view
                 request.getRequestDispatcher("./eBooksStoreAdminUsersPage.jsp").forward(request, response);
             }
-        } // ============================= CANCEL ========================================================================================================// check push on Cancel button
+        } //  CANCEL  check push on Cancel button
         else if (request.getParameter("admin_users_cancel") != null) { // cancel
             request.getRequestDispatcher("./eBooksStoreMainPage.jsp").forward(request, response);
         } // check push on admin user roles button
@@ -179,7 +179,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         } // check push on admin customers button
     }
 
-    // ============================= UPDATE ALL CHECKS ========================================================================================================
+    //  UPDATE ALL CHECKS 
     private void updateAllCheckboxes(HttpServletRequest request, Connection connection, PreparedStatement pstmnt, String[] selectedCheckboxes)
             throws SQLException {
 
@@ -192,7 +192,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
             String password = null;
             String role = null;
 
-            // ============================= GET CURRENT USER ==============
+            //  GET CURRENT USER 
             String sql = "SELECT * FROM EBOOKS.USERS WHERE ssn='" + checkedSsn + "'";
 
             statement = connection.createStatement();
@@ -207,7 +207,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
             }
 
             User user = new User(checkedSsn, name, password, role);
-            // ============================= PASS THE CURRENT USER ==============
+            //  PASS THE CURRENT USER 
             Map<UserParameters, String> parameterMap = getUpdateParameters(request, user);
 
             String DML = "UPDATE EBOOKS.USERS "
@@ -216,12 +216,12 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
 
             pstmnt = connection.prepareStatement(DML);
 
-            // ============================= PREPARE STATEMENT =====================
+            //  PREPARE STATEMENT 
             pstmnt.setString(1, parameterMap.get(UserParameters.SSN));
             pstmnt.setString(2, parameterMap.get(UserParameters.NAME));
             pstmnt.setString(3, (parameterMap.get(UserParameters.PASSWORD)));
             pstmnt.setString(4, (parameterMap.get(UserParameters.ROLE)));
-            // ========== WHERE =============
+            //  WHERE 
             pstmnt.setString(5, checkedSsn);
 
             pstmnt.execute();
@@ -231,7 +231,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         close(results, null, null);
 
     }
-    // ============================= UPDATE ONE CHECK ========================================================================================================
+    //  UPDATE ONE CHECK 
 
     private void updateOneCheckbox(HttpServletRequest request, Connection connection, PreparedStatement pstmnt, String checkedSsn)
             throws SQLException {
@@ -240,7 +240,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         String password = null;
         String role = null;
 
-        // ============================= GET THE USER ==============
+        //  GET THE USER 
         String sql = "SELECT * FROM EBOOKS.USERS WHERE ssn='" + checkedSsn + "'";
 
         Statement statement = connection.createStatement();
@@ -255,7 +255,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         }
 
         User user = new User(checkedSsn, name, password, role);
-        // ============================= PASS THE USER ==============
+        //  PASS THE USER 
         Map<UserParameters, String> parameterMap = getUpdateParameters(request, user);
 
         String DML = "UPDATE EBOOKS.USERS "
@@ -264,12 +264,12 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
 
         pstmnt = connection.prepareStatement(DML);
 
-// ============================= PREPARE STATEMENT=====================
+//  PREPARE STATEMENT
         pstmnt.setString(1, parameterMap.get(UserParameters.SSN));
         pstmnt.setString(2, parameterMap.get(UserParameters.NAME));
         pstmnt.setString(3, (parameterMap.get(UserParameters.PASSWORD)));
         pstmnt.setString(4, (parameterMap.get(UserParameters.ROLE)));
-        // ========== WHERE =============
+        //  WHERE 
         pstmnt.setString(5, checkedSsn);
 
         pstmnt.execute();
@@ -278,7 +278,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
 
     }
 
-    // ============================= GET INSERT PARAMETERS ===================================================================================================
+    //  GET INSERT PARAMETERS 
     private Map<UserParameters, String> getInsertParameters(HttpServletRequest request) {
 
         Map<UserParameters, String> parameterMap = new HashMap<>();
@@ -303,7 +303,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         return parameterMap;
     }
 
-    // ============================= GET UPDATE PARAMETERS ==============================================================================================
+    //  GET UPDATE PARAMETERS 
     private Map<UserParameters, String> getUpdateParameters(HttpServletRequest request, User user) {
 
         Map<UserParameters, String> parameterMap = new HashMap<>();
@@ -328,7 +328,7 @@ public class eBooksStoreAdminUsersServlet extends HttpServlet {
         return parameterMap;
     }
 
-        // ============================= CLOSE RESOURCES ========================================================================================================
+        //  CLOSE RESOURCES 
 
     private void close(ResultSet resultSet, Statement stmt, Connection connection) {
         if (resultSet != null) {
